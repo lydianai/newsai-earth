@@ -1,101 +1,186 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+// Knowledge Metrics Interface
+interface KnowledgeMetrics {
+  total_documents: number;
+  vector_embeddings: number;
+  search_queries: number;
+  knowledge_graphs: number;
+  languages_supported: number;
+  storage_used: number;
+  processing_speed: number;
+  accuracy_rate: number;
+}
+
+// Vault Item Interface
+interface VaultItem {
+  id: string;
+  name: string;
+  type: 'file' | 'note' | 'password' | 'key';
+  size: number;
+  encrypted: boolean;
+  created: string;
+  accessed: string;
+  security_level: 'low' | 'medium' | 'high' | 'maximum';
+}
+
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
-    const query = searchParams.get('q');
-    const lang = searchParams.get('lang') || 'tr';
-    const mode = searchParams.get('mode') || 'hybrid'; // hybrid, semantic, keyword
-    const limit = parseInt(searchParams.get('limit') || '10');
-    
-    if (!query) {
-      return NextResponse.json({ error: 'Query parameter is required' }, { status: 400 });
+    const action = searchParams.get('action');
+
+    // If it's a legacy search request, handle it
+    if (action === 'search') {
+      const query = searchParams.get('q');
+      const lang = searchParams.get('lang') || 'tr';
+      const mode = searchParams.get('mode') || 'hybrid';
+      const limit = parseInt(searchParams.get('limit') || '10');
+      
+      if (!query) {
+        return NextResponse.json({ error: 'Query parameter is required' }, { status: 400 });
+      }
+
+      // Mock knowledge base search results (legacy support)
+      const mockKnowledgeResults = [
+        {
+          id: '1',
+          title: query.includes('iklim') ? 'İklim Değişikliği ve Etkileri' : 'Yapay Zeka ve Makine Öğrenmesi',
+          content: query.includes('iklim') 
+            ? 'İklim değişikliği, atmosferdeki sera gazı konsantrasyonlarının artması sonucu oluşan küresel sıcaklık artışıdır...'
+            : 'Yapay zeka, makinelerin insan benzeri görevleri yerine getirmesi için geliştirilen teknolojilerdir...',
+          summary: 'Comprehensive overview of the topic with key insights and data.',
+          source: 'AI LENS Knowledge Base',
+          type: 'article',
+          confidence: 0.95,
+          language: lang,
+          tags: query.includes('iklim') ? ['iklim', 'çevre', 'bilim'] : ['ai', 'teknoloji', 'makine-öğrenmesi'],
+          createdAt: new Date().toISOString(),
+          citations: [
+            {
+              title: 'Scientific Research Paper',
+              url: 'https://example.com/paper1',
+              authors: ['Dr. Smith', 'Dr. Johnson'],
+              year: 2024
+            }
+          ],
+          embedding: Array.from({ length: 1536 }, () => Math.random()),
+          similarityScore: 0.87
+        }
+      ];
+
+      const filteredResults = mockKnowledgeResults
+        .filter(result => 
+          result.title.toLowerCase().includes(query.toLowerCase()) ||
+          result.content.toLowerCase().includes(query.toLowerCase()) ||
+          result.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()))
+        )
+        .slice(0, limit);
+
+      return NextResponse.json({
+        query,
+        language: lang,
+        mode,
+        results: filteredResults,
+        total: filteredResults.length,
+        searchMetrics: {
+          searchTime: Math.random() * 500 + 100,
+          indexSize: 1250000,
+          documentsScanned: Math.floor(Math.random() * 10000 + 5000),
+          averageConfidence: filteredResults.reduce((sum, r) => sum + r.confidence, 0) / filteredResults.length || 0
+        },
+        suggestions: [
+          `${query} applications`,
+          `${query} research`,
+          `${query} examples`,
+          `latest ${query} developments`
+        ],
+        timestamp: new Date().toISOString()
+      });
     }
 
-    // Mock knowledge base search results
-    const mockKnowledgeResults = [
-      {
-        id: '1',
-        title: query.includes('iklim') ? 'İklim Değişikliği ve Etkileri' : 'Yapay Zeka ve Makine Öğrenmesi',
-        content: query.includes('iklim') 
-          ? 'İklim değişikliği, atmosferdeki sera gazı konsantrasyonlarının artması sonucu oluşan küresel sıcaklık artışıdır...'
-          : 'Yapay zeka, makinelerin insan benzeri görevleri yerine getirmesi için geliştirilen teknolojilerdir...',
-        summary: 'Comprehensive overview of the topic with key insights and data.',
-        source: 'AI LENS Knowledge Base',
-        type: 'article',
-        confidence: 0.95,
-        language: lang,
-        tags: query.includes('iklim') ? ['iklim', 'çevre', 'bilim'] : ['ai', 'teknoloji', 'makine-öğrenmesi'],
-        createdAt: new Date().toISOString(),
-        citations: [
-          {
-            title: 'Scientific Research Paper',
-            url: 'https://example.com/paper1',
-            authors: ['Dr. Smith', 'Dr. Johnson'],
-            year: 2024
-          }
-        ],
-        embedding: Array.from({ length: 1536 }, () => Math.random()),
-        similarityScore: 0.87
-      },
-      {
-        id: '2',
-        title: 'Quantum Computing Fundamentals',
-        content: 'Quantum computing leverages quantum mechanical phenomena to process information...',
-        summary: 'Introduction to quantum computing principles and applications.',
-        source: 'Quantum Research Institute',
-        type: 'research',
-        confidence: 0.91,
-        language: lang,
-        tags: ['quantum', 'computing', 'physics'],
-        createdAt: new Date(Date.now() - 86400000).toISOString(),
-        citations: [
-          {
-            title: 'Nature Quantum Computing',
-            url: 'https://example.com/nature-quantum',
-            authors: ['Prof. Chen', 'Dr. Williams'],
-            year: 2024
-          }
-        ],
-        embedding: Array.from({ length: 1536 }, () => Math.random()),
-        similarityScore: 0.82
-      }
+    // Default: Return knowledge hub metrics and data
+    const metrics: KnowledgeMetrics = {
+      total_documents: Math.floor(Math.random() * 100000 + 500000),
+      vector_embeddings: Math.floor(Math.random() * 50000000 + 100000000),
+      search_queries: Math.floor(Math.random() * 10000 + 50000),
+      knowledge_graphs: Math.floor(Math.random() * 500 + 1000),
+      languages_supported: 127,
+      storage_used: Number((Math.random() * 5 + 10).toFixed(1)),
+      processing_speed: Math.floor(Math.random() * 50 + 150),
+      accuracy_rate: Number((Math.random() * 5 + 94).toFixed(1))
+    };
+
+    // Generate vault items
+    const fileTypes = ['file', 'note', 'password', 'key'] as const;
+    const securityLevels = ['low', 'medium', 'high', 'maximum'] as const;
+    const fileNames = [
+      'Research_Notes.pdf', 'Project_Specs.docx', 'Database_Backup.sql',
+      'Personal_Journal.txt', 'API_Keys.json', 'Certificate.pem',
+      'Meeting_Minutes.md', 'Financial_Report.xlsx', 'Code_Snippets.js',
+      'Travel_Documents.pdf', 'Medical_Records.pdf', 'Insurance_Policy.pdf'
     ];
 
-    // Filter results based on query relevance
-    const filteredResults = mockKnowledgeResults
-      .filter(result => 
-        result.title.toLowerCase().includes(query.toLowerCase()) ||
-        result.content.toLowerCase().includes(query.toLowerCase()) ||
-        result.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()))
-      )
-      .slice(0, limit);
+    const vaultItems: VaultItem[] = Array.from({ length: 12 }, (_, i) => {
+      const createdDate = new Date(Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000);
+      const accessedDate = new Date(createdDate.getTime() + Math.random() * (Date.now() - createdDate.getTime()));
+      
+      return {
+        id: `vault_item_${i + 1}_${Date.now()}`,
+        name: fileNames[i % fileNames.length],
+        type: fileTypes[i % fileTypes.length],
+        size: Math.floor(Math.random() * 1024 * 1024 * 10), // Up to 10MB
+        encrypted: Math.random() > 0.2, // 80% encrypted
+        created: createdDate.toISOString(),
+        accessed: accessedDate.toISOString(),
+        security_level: securityLevels[Math.floor(Math.random() * securityLevels.length)]
+      };
+    });
+
+    // Generate system status
+    const systemStatus = {
+      rag_engine: {
+        status: 'active',
+        model: 'text-embedding-ada-002',
+        vector_db: 'Pinecone',
+        index_size: metrics.vector_embeddings,
+        dimensions: 1536
+      },
+      knowledge_graph: {
+        nodes: Math.floor(Math.random() * 50000 + 100000),
+        relationships: Math.floor(Math.random() * 200000 + 500000),
+        graph_db: 'Neo4j',
+        query_performance: Number((Math.random() * 100 + 50).toFixed(2))
+      },
+      encryption: {
+        algorithm: 'AES-256-GCM',
+        key_strength: 256,
+        certificates_valid: true,
+        hsm_connected: true
+      }
+    };
 
     return NextResponse.json({
-      query,
-      language: lang,
-      mode,
-      results: filteredResults,
-      total: filteredResults.length,
-      searchMetrics: {
-        searchTime: Math.random() * 500 + 100, // 100-600ms
-        indexSize: 1250000,
-        documentsScanned: Math.floor(Math.random() * 10000 + 5000),
-        averageConfidence: filteredResults.reduce((sum, r) => sum + r.confidence, 0) / filteredResults.length || 0
-      },
-      suggestions: [
-        `${query} applications`,
-        `${query} research`,
-        `${query} examples`,
-        `latest ${query} developments`
+      success: true,
+      timestamp: new Date().toISOString(),
+      metrics,
+      vault_items: vaultItems,
+      system_status: systemStatus,
+      supported_languages: [
+        'English', 'Türkçe', 'Español', 'Français', 'Deutsch', 'Italiano',
+        'Português', 'русский', '中文', '日本語', '한국어', 'العربية',
+        'हिन्दी', 'Nederlands', 'Svenska', 'Norsk', 'Dansk', 'Suomi'
       ],
-      timestamp: new Date().toISOString()
+      status: 'Knowledge Hub Active'
     });
 
   } catch (error) {
-    console.error('Knowledge API error:', error);
+    console.error('Knowledge API Error:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { 
+        success: false, 
+        error: 'Failed to fetch knowledge data',
+        timestamp: new Date().toISOString()
+      },
       { status: 500 }
     );
   }
