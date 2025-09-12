@@ -1,0 +1,71 @@
+services:
+  # PostgreSQL Database with pgvector extension
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: ai-lens-postgres
+    environment:
+      POSTGRES_USER: ailens
+      POSTGRES_PASSWORD: ailens2025
+      POSTGRES_DB: ailens_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - ai-lens-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ailens"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Redis for caching
+  redis:
+    image: redis:7-alpine
+    container_name: ai-lens-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - ai-lens-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
+  # AI LENS Next.js Application (Development Mode)
+  ai-lens-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: ai-lens-nextjs
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://ailens:ailens2025@postgres:5432/ailens_db
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=ai-lens-ultra-secure-jwt-secret-key-2025
+      - NEXTAUTH_URL=http://localhost:3000
+      - NEXTAUTH_SECRET=ai-lens-nextauth-secret-key-2025
+      - NEXT_TELEMETRY_DISABLED=1
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - ai-lens-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  ai-lens-network:
+    driver: bridge

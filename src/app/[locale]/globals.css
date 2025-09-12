@@ -1,0 +1,464 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* AI NEWS - HUB Theme Variables */
+  --bg: #0B0F14;
+  --bg-soft: #0F141B;
+  --panel: #121826;
+  --panel-secondary: #0E1624;
+  --text: #E6EDF7;
+  --muted: #A9B4C4;
+  --brand-1: #5CF2E3;
+  --brand-2: #7CC8FF;
+  --accent-1: #C9FF5C;
+  --accent-2: #6DFFB3;
+  --warning: #FFCC66;
+  --danger: #FF6B6B;
+  --success: #52E2A7;
+  
+  /* Gradients */
+  --grad-accent: linear-gradient(135deg, #5CF2E3 0%, #7CC8FF 50%, #C9FF5C 100%);
+  --grad-hero: radial-gradient(1200px 800px at 20% 10%, #12243A 0%, #0B0F14 55%), conic-gradient(from 210deg at 70% 30%, #0B0F14 0%, #12243A 20%, #0B0F14 60%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter Variable', Inter, system-ui, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Responsive text sizes */
+.text-muted {
+  color: var(--muted);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--panel);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--brand-2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-1);
+}
+
+/* AI NEWS - HUB Component Styles */
+
+/* Frost Glass Effect */
+.frost-glass {
+  background: rgba(18, 24, 38, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(124, 200, 255, 0.1);
+}
+
+/* Lens Button Styles */
+.lens-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.lens-button-primary {
+  background: var(--grad-accent);
+  color: var(--bg);
+  box-shadow: 0 0 20px rgba(92, 242, 227, 0.3);
+}
+
+.lens-button-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 30px rgba(92, 242, 227, 0.4);
+}
+
+.lens-button-ghost {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid rgba(124, 200, 255, 0.2);
+}
+
+.lens-button-ghost:hover {
+  background: rgba(124, 200, 255, 0.1);
+  color: var(--text);
+  border-color: var(--brand-2);
+}
+
+.lens-button-soft {
+  background: rgba(124, 200, 255, 0.1);
+  color: var(--text);
+  border: 1px solid rgba(124, 200, 255, 0.2);
+}
+
+.lens-button-soft:hover {
+  background: rgba(124, 200, 255, 0.15);
+  border-color: var(--brand-2);
+}
+
+/* Lens Card */
+.lens-card {
+  background: linear-gradient(135deg, rgba(18, 24, 38, 0.95), rgba(14, 22, 36, 0.9));
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(124, 200, 255, 0.1);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* AI NEWS - HUB Animated Background */
+.ai-hub-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -10;
+  background: var(--bg);
+}
+
+.ai-hub-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--grad-hero);
+  opacity: 0.8;
+}
+
+/* Animated Particles */
+.particle-system {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  animation: float 8s linear infinite;
+}
+
+.particle-1 {
+  width: 4px;
+  height: 4px;
+  background: var(--brand-1);
+  box-shadow: 0 0 10px var(--brand-1);
+  animation-delay: 0s;
+  animation-duration: 12s;
+}
+
+.particle-2 {
+  width: 6px;
+  height: 6px;
+  background: var(--brand-2);
+  box-shadow: 0 0 15px var(--brand-2);
+  animation-delay: -2s;
+  animation-duration: 15s;
+}
+
+.particle-3 {
+  width: 3px;
+  height: 3px;
+  background: var(--accent-1);
+  box-shadow: 0 0 8px var(--accent-1);
+  animation-delay: -4s;
+  animation-duration: 10s;
+}
+
+.particle-4 {
+  width: 5px;
+  height: 5px;
+  background: var(--accent-2);
+  box-shadow: 0 0 12px var(--accent-2);
+  animation-delay: -6s;
+  animation-duration: 18s;
+}
+
+/* Neural Network Lines */
+.neural-network {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0.15;
+}
+
+.neural-line {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--brand-2), transparent);
+  animation: neural-pulse 6s ease-in-out infinite;
+}
+
+.neural-line:nth-child(1) {
+  top: 20%;
+  left: -10%;
+  width: 30%;
+  animation-delay: 0s;
+  transform: rotate(15deg);
+}
+
+.neural-line:nth-child(2) {
+  top: 45%;
+  right: -10%;
+  width: 25%;
+  animation-delay: -1s;
+  transform: rotate(-10deg);
+}
+
+.neural-line:nth-child(3) {
+  top: 70%;
+  left: -5%;
+  width: 35%;
+  animation-delay: -2s;
+  transform: rotate(25deg);
+}
+
+.neural-line:nth-child(4) {
+  top: 35%;
+  left: 60%;
+  width: 28%;
+  animation-delay: -3s;
+  transform: rotate(-20deg);
+}
+
+/* Floating Orbs */
+.floating-orb {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, var(--brand-1), transparent 70%);
+  mix-blend-mode: screen;
+  animation: orbit 20s linear infinite;
+  opacity: 0.6;
+}
+
+.orb-1 {
+  width: 80px;
+  height: 80px;
+  top: 20%;
+  left: 15%;
+  animation-delay: 0s;
+}
+
+.orb-2 {
+  width: 120px;
+  height: 120px;
+  top: 60%;
+  right: 20%;
+  background: radial-gradient(circle at 30% 30%, var(--accent-1), transparent 70%);
+  animation-delay: -5s;
+  animation-duration: 25s;
+}
+
+.orb-3 {
+  width: 60px;
+  height: 60px;
+  bottom: 25%;
+  left: 70%;
+  background: radial-gradient(circle at 30% 30%, var(--brand-2), transparent 70%);
+  animation-delay: -10s;
+  animation-duration: 18s;
+}
+
+/* Data Stream Effect */
+.data-stream {
+  position: absolute;
+  width: 2px;
+  height: 100vh;
+  background: linear-gradient(to bottom, 
+    transparent 0%, 
+    var(--brand-2) 20%, 
+    var(--accent-1) 40%,
+    var(--brand-1) 60%,
+    transparent 100%
+  );
+  animation: stream-flow 8s linear infinite;
+  opacity: 0.3;
+}
+
+.stream-1 { left: 10%; animation-delay: 0s; }
+.stream-2 { left: 25%; animation-delay: -2s; animation-duration: 12s; }
+.stream-3 { left: 40%; animation-delay: -4s; animation-duration: 10s; }
+.stream-4 { left: 60%; animation-delay: -1s; animation-duration: 15s; }
+.stream-5 { left: 75%; animation-delay: -3s; animation-duration: 9s; }
+.stream-6 { right: 15%; animation-delay: -5s; animation-duration: 14s; }
+
+/* Grid Pattern */
+.grid-pattern {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0.05;
+  background-image: 
+    linear-gradient(var(--brand-2) 1px, transparent 1px),
+    linear-gradient(90deg, var(--brand-2) 1px, transparent 1px);
+  background-size: 80px 80px;
+  animation: grid-shift 30s linear infinite;
+}
+
+/* Pulsing Dots Matrix */
+.dots-matrix {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.dot {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--accent-2);
+  border-radius: 50%;
+  animation: pulse-dot 4s ease-in-out infinite;
+}
+
+/* AI HUB Text Animation */
+.ai-hub-watermark {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  font-family: 'Inter Variable', Inter, system-ui, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: var(--grad-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0.3;
+  animation: watermark-glow 8s ease-in-out infinite;
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate(100vw, -50px) rotate(180deg);
+  }
+}
+
+@keyframes neural-pulse {
+  0%, 100% {
+    opacity: 0.1;
+    transform: scaleX(1) scaleY(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scaleX(1.2) scaleY(1.5);
+  }
+}
+
+@keyframes orbit {
+  0% {
+    transform: rotate(0deg) translateX(100px) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(100px) rotate(-360deg);
+  }
+}
+
+@keyframes stream-flow {
+  0% {
+    transform: translateY(-100vh);
+    opacity: 0;
+  }
+  10%, 90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+@keyframes grid-shift {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(80px, 80px);
+  }
+}
+
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(2);
+  }
+}
+
+@keyframes watermark-glow {
+  0%, 100% {
+    opacity: 0.2;
+    text-shadow: 0 0 10px rgba(92, 242, 227, 0.3);
+  }
+  50% {
+    opacity: 0.6;
+    text-shadow: 0 0 20px rgba(92, 242, 227, 0.8);
+  }
+}
+
+/* Performance optimizations */
+.ai-hub-background,
+.ai-hub-background * {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .particle,
+  .neural-line,
+  .floating-orb,
+  .data-stream,
+  .grid-pattern,
+  .dot,
+  .ai-hub-watermark {
+    animation-duration: 0.01s;
+    animation-iteration-count: 1;
+  }
+}

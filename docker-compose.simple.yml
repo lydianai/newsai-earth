@@ -1,0 +1,42 @@
+services:
+  # PostgreSQL Database with pgvector extension
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: ai-lens-postgres
+    environment:
+      POSTGRES_USER: ailens
+      POSTGRES_PASSWORD: ailens2025
+      POSTGRES_DB: ailens_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - ai-lens-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ailens"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Redis for caching
+  redis:
+    image: redis:7-alpine
+    container_name: ai-lens-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - ai-lens-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
+volumes:
+  postgres_data:
+
+networks:
+  ai-lens-network:
+    driver: bridge

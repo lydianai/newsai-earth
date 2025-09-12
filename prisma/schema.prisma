@@ -1,0 +1,947 @@
+// AI NEWS - HUB - Ultra Master Schema
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearchPostgres", "postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [pgvector(map: "vector")]
+}
+
+// CORE USER MANAGEMENT
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  username     String?  @unique
+  passwordHash String?
+  firstName    String?
+  lastName     String?
+  avatar       String?
+  locale       String   @default("tr")
+  timezone     String   @default("Europe/Istanbul")
+  plan         UserPlan @default(FREE)
+  credits      Int      @default(100)
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  lastLoginAt DateTime?
+
+  // Relations
+  sessions        UserSession[]
+  searches        AILensSearch[]
+  vaultItems      VaultItem[]
+  reports         AILensReport[]
+  quantumCircuits QuantumCircuit[]
+  digitaltwinData DigitalTwinData[]
+  iotDevices      IoTDevice[]
+  agents          AIAgent[]
+  workflows       Workflow[]
+  communities     CommunityMembership[]
+
+  @@map("users")
+}
+
+model UserSession {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_sessions")
+}
+
+enum UserPlan {
+  FREE
+  PRO
+  ENTERPRISE
+}
+
+// AI NEWS - HUB CORE SEARCH & KNOWLEDGE
+model AILensSearch {
+  id             String                       @id @default(cuid())
+  userId         String
+  query          String
+  queryLang      String                       @default("tr")
+  response       Json?
+  sources        Json[]
+  embedding      Unsupported("vector(1536)")?
+  resultType     SearchResultType
+  confidence     Float?
+  processingTime Int?
+
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("ai_lens_searches")
+}
+
+enum SearchResultType {
+  RAG
+  NEWS
+  QUANTUM
+  DIGITAL_TWIN
+  RESEARCH
+  PREDICTION
+}
+
+// VAULT - Encrypted Storage
+model VaultItem {
+  id          String                       @id @default(cuid())
+  userId      String
+  title       String
+  content     String // AES-256-GCM encrypted
+  contentType String                       @default("text")
+  tags        String[]
+  embedding   Unsupported("vector(1536)")?
+  isPublic    Boolean                      @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("vault_items")
+}
+
+// EARTHBRIEF - Global News Engine
+model EarthBriefArticle {
+  id            String                       @id @default(cuid())
+  title         String
+  summary       String
+  content       String?
+  originalUrl   String
+  sourceRosette String // Guardian, BBC, Reuters etc.
+  category      String
+  language      String                       @default("en")
+  publishedAt   DateTime
+  embedding     Unsupported("vector(1536)")?
+
+  // Fact checking
+  factScore      Float?
+  consensusScore Float?
+  verifiedAt     DateTime?
+
+  // Geo data
+  latitude  Float?
+  longitude Float?
+  country   String?
+
+  tags     String[]
+  imageUrl String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("earthbrief_articles")
+}
+
+model LiveEvent {
+  id          String        @id @default(cuid())
+  title       String
+  description String?
+  eventType   EventType
+  severity    EventSeverity @default(LOW)
+  latitude    Float
+  longitude   Float
+  country     String?
+  region      String?
+
+  startTime DateTime
+  endTime   DateTime?
+  isActive  Boolean   @default(true)
+
+  sources  Json[] // USGS, NASA EONET, etc.
+  metadata Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("live_events")
+}
+
+enum EventType {
+  EARTHQUAKE
+  WILDFIRE
+  VOLCANO
+  STORM
+  FLOOD
+  DROUGHT
+  POLITICAL
+  ECONOMIC
+  TECH_OUTAGE
+}
+
+enum EventSeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+// QUANTUM LAB
+model QuantumCircuit {
+  id          String           @id @default(cuid())
+  userId      String
+  name        String
+  description String?
+  circuitData Json // QASM or JSON representation
+  algorithm   QuantumAlgorithm
+  qubits      Int
+  gates       Json[]
+
+  // Execution results
+  executions QuantumExecution[]
+
+  isPublic  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("quantum_circuits")
+}
+
+model QuantumExecution {
+  id            String @id @default(cuid())
+  circuitId     String
+  shots         Int    @default(1024)
+  results       Json // Measurement results
+  statevector   Json?
+  fidelity      Float?
+  executionTime Int?
+
+  backend   String   @default("simulator")
+  createdAt DateTime @default(now())
+
+  circuit QuantumCircuit @relation(fields: [circuitId], references: [id], onDelete: Cascade)
+
+  @@map("quantum_executions")
+}
+
+enum QuantumAlgorithm {
+  GROVER
+  SHOR
+  QAOA
+  VQE
+  DEUTSCH_JOZSA
+  CUSTOM
+}
+
+// DIGITAL TWIN & IoT
+model DigitalTwinData {
+  id         String @id @default(cuid())
+  userId     String
+  entityType String // city, building, factory, etc.
+  entityId   String
+
+  // Geo coordinates
+  latitude  Float
+  longitude Float
+
+  // Time series data
+  timestamp DateTime
+  metrics   Json // { temperature: 25.3, energy: 1250.5 }
+
+  // Predictions
+  predictions Json?
+
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("digital_twin_data")
+}
+
+model IoTDevice {
+  id         String        @id @default(cuid())
+  userId     String
+  name       String
+  deviceType IoTDeviceType
+
+  // Connection info
+  mac         String?
+  ipAddress   String?
+  apiEndpoint String?
+
+  // Current status
+  isOnline Boolean   @default(false)
+  lastSeen DateTime?
+
+  // Data readings
+  readings IoTReading[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("iot_devices")
+}
+
+model IoTReading {
+  id         String   @id @default(cuid())
+  deviceId   String
+  sensorType String // temperature, humidity, energy, etc.
+  value      Float
+  unit       String
+  timestamp  DateTime @default(now())
+
+  device IoTDevice @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+
+  @@map("iot_readings")
+}
+
+enum IoTDeviceType {
+  SMART_METER
+  WEATHER_STATION
+  ENERGY_MONITOR
+  AIR_QUALITY
+  CAMERA
+  SENSOR_GENERIC
+}
+
+// AI AGENTS & AUTOMATION
+model AIAgent {
+  id          String    @id @default(cuid())
+  userId      String
+  name        String
+  description String?
+  agentType   AgentType
+
+  // Configuration
+  systemPrompt String?
+  model        String  @default("gpt-4")
+  maxTokens    Int     @default(2000)
+  temperature  Float   @default(0.7)
+
+  // Tools & capabilities
+  availableTools Json[]
+
+  // Execution stats
+  totalRuns       Int    @default(0)
+  avgResponseTime Float?
+
+  isActive Boolean @default(true)
+  isPublic Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  executions AgentExecution[]
+
+  @@map("ai_agents")
+}
+
+model AgentExecution {
+  id         String  @id @default(cuid())
+  agentId    String
+  input      String
+  output     String?
+  tokensUsed Int?
+  duration   Int? // milliseconds
+  success    Boolean @default(false)
+  error      String?
+
+  createdAt DateTime @default(now())
+
+  agent AIAgent @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
+  @@map("agent_executions")
+}
+
+enum AgentType {
+  RESEARCHER
+  REPORTER
+  ANALYST
+  TRANSLATOR
+  FACT_CHECKER
+  CREATIVE
+  AUTOMATION
+}
+
+// WORKFLOWS & AUTOMATION
+model Workflow {
+  id          String  @id @default(cuid())
+  userId      String
+  name        String
+  description String?
+
+  // Flow definition
+  flowData Json // Nodes, edges, configuration
+
+  // Execution
+  isActive Boolean         @default(false)
+  trigger  WorkflowTrigger @default(MANUAL)
+  schedule String? // Cron expression
+
+  // Stats
+  totalRuns Int       @default(0)
+  lastRun   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  runs WorkflowRun[]
+
+  @@map("workflows")
+}
+
+model WorkflowRun {
+  id         String         @id @default(cuid())
+  workflowId String
+  status     WorkflowStatus @default(RUNNING)
+  input      Json?
+  output     Json?
+  error      String?
+  duration   Int? // milliseconds
+
+  startedAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  workflow Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+
+  @@map("workflow_runs")
+}
+
+enum WorkflowTrigger {
+  MANUAL
+  SCHEDULE
+  WEBHOOK
+  EVENT
+}
+
+enum WorkflowStatus {
+  RUNNING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+// REPORTS & DOCUMENTS
+model AILensReport {
+  id      String       @id @default(cuid())
+  userId  String
+  title   String
+  content String
+  format  ReportFormat @default(MARKDOWN)
+
+  // Generation details
+  prompt     String?
+  model      String?
+  tokensUsed Int?
+
+  // Sharing
+  isPublic  Boolean @default(false)
+  shareSlug String? @unique
+
+  // Stats
+  views     Int @default(0)
+  downloads Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("ai_lens_reports")
+}
+
+enum ReportFormat {
+  MARKDOWN
+  PDF
+  HTML
+  JSON
+}
+
+// COMMUNITY & SOCIAL
+model Community {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  description String?
+  slug        String  @unique
+
+  isPublic    Boolean @default(true)
+  memberCount Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  members CommunityMembership[]
+  posts   CommunityPost[]
+
+  @@map("communities")
+}
+
+model CommunityMembership {
+  id          String        @id @default(cuid())
+  userId      String
+  communityId String
+  role        CommunityRole @default(MEMBER)
+
+  joinedAt DateTime @default(now())
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  community Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, communityId])
+  @@map("community_memberships")
+}
+
+model CommunityPost {
+  id          String @id @default(cuid())
+  communityId String
+  userId      String
+  title       String
+  content     String
+
+  upvotes   Int @default(0)
+  downvotes Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  community Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+
+  @@map("community_posts")
+}
+
+enum CommunityRole {
+  MEMBER
+  MODERATOR
+  ADMIN
+  OWNER
+}
+
+// BILLING & SUBSCRIPTIONS
+model Subscription {
+  id                   String @id @default(cuid())
+  userId               String @unique
+  stripeCustomerId     String @unique
+  stripePriceId        String
+  stripeSubscriptionId String @unique
+
+  plan               UserPlan
+  status             SubscriptionStatus
+  currentPeriodStart DateTime
+  currentPeriodEnd   DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("subscriptions")
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  INACTIVE
+  PAST_DUE
+  CANCELED
+  INCOMPLETE
+}
+
+// CACHING & PERFORMANCE
+model CacheEntry {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     Json
+  ttl       Int // seconds
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("cache_entries")
+}
+
+// ANALYTICS & METRICS
+model AnalyticsEvent {
+  id        String  @id @default(cuid())
+  userId    String?
+  sessionId String?
+  eventType String
+  eventData Json?
+
+  // Request info
+  userAgent String?
+  ipAddress String?
+  country   String?
+
+  timestamp DateTime @default(now())
+
+  @@map("analytics_events")
+}
+
+// AGRI LENS v2 - ADVANCED AGRICULTURAL INTELLIGENCE
+
+// Core Agricultural Taxonomy
+model Crop {
+  id            String           @id @default(cuid())
+  name_en       String
+  name_tr       String?
+  name_local    Json? // Multi-language names: {"ar": "قمح", "es": "trigo"}
+  synonyms      String[]
+  hs_codes      String[] // Harmonized System trade codes
+  category      CropCategory
+  water_need    WaterRequirement @default(MEDIUM)
+  growth_stages String[] // ["planting", "germination", "flowering", "harvest"]
+
+  // Climate requirements
+  min_temp     Float? // Celsius
+  max_temp     Float? // Celsius
+  rainfall_min Float? // mm/year
+  rainfall_max Float? // mm/year
+
+  // Economic data
+  global_production Float? // tonnes/year
+  major_producers   String[] // Country ISO codes
+
+  // Relations
+  profiles          CropCountryProfile[]
+  forecasts         YieldModel[]
+  advice_logs       AdviceLog[]
+  esg_snapshots     ESGSnapshot[]
+  health_detections PlantHealthDetection[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("crops")
+}
+
+model Country {
+  id         String   @id @default(cuid())
+  iso2       String   @unique // "TR", "US", etc.
+  iso3       String   @unique // "TUR", "USA", etc.
+  name_en    String
+  name_local String?
+  regions    String[] // Administrative regions
+
+  // Geography
+  latitude  Float
+  longitude Float
+  area_km2  Float?
+
+  // Climate zones (Köppen-Geiger)
+  climate_zones String[]
+
+  // Relations
+  profiles      CropCountryProfile[]
+  ndvi_series   NDVITimeSeries[]
+  yield_models  YieldModel[]
+  supply_events SupplyEvent[]
+  esg_snapshots ESGSnapshot[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("countries")
+}
+
+model CropCountryProfile {
+  id        String @id @default(cuid())
+  cropId    String
+  countryId String
+
+  // Production statistics
+  area_avg       Float? // hectares
+  yield_avg      Float? // tonnes/hectare
+  production_avg Float? // tonnes
+
+  // Seasonal information
+  planting_window String? // "March-May"
+  harvest_window  String? // "September-November"
+  season_notes    String?
+
+  // Economic indicators
+  price_avg     Float? // USD/tonne
+  export_volume Float? // tonnes
+  domestic_use  Float? // tonnes
+
+  crop    Crop    @relation(fields: [cropId], references: [id], onDelete: Cascade)
+  country Country @relation(fields: [countryId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([cropId, countryId])
+  @@map("crop_country_profiles")
+}
+
+// NDVI & Satellite Data
+model NDVITimeSeries {
+  id         String  @id @default(cuid())
+  region_key String // "country:TR" or "bbox:lat1,lon1,lat2,lon2"
+  countryId  String?
+
+  // Time series data
+  timestamps  DateTime[]
+  ndvi_values Float[] // Normalized values 0-1
+
+  // Metadata
+  resolution String  @default("low") // "low", "med", "high"
+  provider   String  @default("open") // "open", "copernicus", "demo"
+  bbox       String? // "lat1,lon1,lat2,lon2"
+
+  // Processing
+  mean_value Float?
+  min_value  Float?
+  max_value  Float?
+  anomalies  Json[] // [{date, deviation, severity}]
+
+  country Country? @relation(fields: [countryId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("ndvi_series")
+}
+
+// Yield Forecasting & Risk Models
+model YieldModel {
+  id         String  @id @default(cuid())
+  cropId     String
+  countryId  String?
+  region_key String // Geographic identifier
+
+  model_type YieldModelType @default(TIMESERIES)
+
+  // Input features used
+  features Json // ["ndvi", "precipitation", "temperature", "soil_moisture"]
+
+  // Model configuration
+  algorithm   String @default("hf_timeseries") // "hf_timeseries", "linear", "arima"
+  hyperparams Json?
+
+  // Performance metrics
+  mae      Float? // Mean Absolute Error
+  rmse     Float? // Root Mean Square Error
+  r2_score Float? // R-squared
+
+  // Latest predictions
+  forecast_horizon Int   @default(90) // days
+  last_prediction  Json? // [{date, value, confidence}]
+
+  crop    Crop     @relation(fields: [cropId], references: [id], onDelete: Cascade)
+  country Country? @relation(fields: [countryId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("yield_models")
+}
+
+// Supply Chain & Logistics Events  
+model SupplyEvent {
+  id         String          @id @default(cuid())
+  event_type SupplyEventType
+  countryId  String?
+
+  // Location
+  latitude      Float?
+  longitude     Float?
+  location_name String?
+
+  // Event details
+  title       String
+  description String?
+  severity    EventSeverity @default(LOW)
+
+  // Timing
+  started_at     DateTime
+  ended_at       DateTime?
+  duration_hours Int?
+
+  // Impact assessment
+  crops_affected   String[] // Crop IDs
+  regions_affected String[]
+  economic_impact  Float? // USD millions
+
+  // Sources
+  source_type        String  @default("feed") // "feed", "news", "manual"
+  source_url         String?
+  source_reliability Float? // 0-1 confidence
+
+  country Country? @relation(fields: [countryId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("supply_events")
+}
+
+// Agricultural Advisory System
+model AdviceLog {
+  id     String  @id @default(cuid())
+  userId String?
+  cropId String
+
+  // Input parameters
+  growth_stage String // "planting", "flowering", etc.
+  soil_type    String? // "clay", "sandy", "loam"
+  weather_data Json? // Current/forecast weather
+  risk_factors Json? // {"drought": 0.3, "pest": 0.1}
+
+  // User location
+  latitude     Float?
+  longitude    Float?
+  country_code String?
+
+  // Generated advice
+  language      String   @default("tr")
+  quick_tips    String[]
+  plan_low_cost String?
+  plan_standard String?
+  plan_premium  String?
+  cautions      String[]
+
+  // Generation metadata
+  model_used  String @default("gpt-4")
+  tokens_used Int?
+  confidence  Float?
+
+  crop Crop @relation(fields: [cropId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@map("advice_logs")
+}
+
+// ESG & Carbon Footprint Tracking
+model ESGSnapshot {
+  id         String  @id @default(cuid())
+  region_key String // "country:TR", "region:mediterranean"
+  countryId  String?
+  cropId     String?
+
+  // Metrics (estimated/modeled)
+  water_use_m3      Float? // m³/hectare/year
+  co2_intensity     Float? // kg CO₂/tonne output
+  soil_health_index Float? // 0-100 composite score
+
+  // Supporting data sources
+  calculation_method String?
+  data_sources       Json[] // Array of source descriptions
+  assumptions        Json? // Key assumptions made
+  confidence         Float? // 0-1 reliability score
+
+  // Temporal scope
+  measurement_year   Int?
+  measurement_season String?
+
+  country Country? @relation(fields: [countryId], references: [id], onDelete: Cascade)
+  crop    Crop?    @relation(fields: [cropId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("esg_snapshots")
+}
+
+// Image-based Plant Health Detection
+model PlantHealthDetection {
+  id     String  @id @default(cuid())
+  userId String?
+  cropId String?
+
+  // Image metadata
+  image_url     String? // Temporary storage URL
+  image_hash    String? // For deduplication
+  image_size_kb Int?
+
+  // Detection results
+  detected_issues Json[] // [{label, confidence, bbox?, recommended_action}]
+  overall_health  String? // "healthy", "disease", "pest", "nutrient"
+  confidence      Float? // 0-1 overall confidence
+
+  // Model information
+  model_used      String @default("plant-disease-classifier")
+  processing_time Int? // milliseconds
+
+  // Context
+  growth_stage   String?
+  location_notes String?
+  user_notes     String?
+
+  crop Crop? @relation(fields: [cropId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@map("plant_health_detections")
+}
+
+// System Health & Monitoring
+model SystemHealth {
+  id        String @id @default(cuid())
+  component String @unique // "database", "hf_api", "faostat_api", etc.
+
+  status        HealthStatus @default(UNKNOWN)
+  last_check    DateTime     @default(now())
+  response_time Int? // milliseconds
+  error_message String?
+
+  // Performance metrics (rolling averages)
+  avg_response_time Float?
+  uptime_pct        Float? // 0-100 uptime percentage
+  total_requests    Int    @default(0)
+  failed_requests   Int    @default(0)
+
+  metadata Json? // Component-specific health info
+
+  updatedAt DateTime @updatedAt
+
+  @@map("system_health")
+}
+
+// Enums for AGRI LENS v2
+enum CropCategory {
+  CEREALS
+  LEGUMES
+  FRUITS
+  VEGETABLES
+  NUTS_SEEDS
+  SPICES_HERBS
+  FIBER_CROPS
+  ENERGY_CROPS
+  FORAGE
+  OTHER
+}
+
+enum WaterRequirement {
+  LOW
+  MEDIUM
+  HIGH
+  VERY_HIGH
+}
+
+enum YieldModelType {
+  TIMESERIES
+  REGRESSION
+  ENSEMBLE
+  NEURAL_NETWORK
+}
+
+enum SupplyEventType {
+  PORT_DELAY
+  TRANSPORTATION_DISRUPTION
+  STORAGE_SHORTAGE
+  TRADE_RESTRICTION
+  NATURAL_DISASTER
+  LABOR_SHORTAGE
+  FUEL_PRICE_SPIKE
+  CURRENCY_FLUCTUATION
+  OTHER
+}
+
+enum HealthStatus {
+  HEALTHY
+  WARNING
+  CRITICAL
+  UNKNOWN
+  MAINTENANCE
+}
