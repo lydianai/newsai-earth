@@ -3,6 +3,7 @@ import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
 import LocaleSetter from "../../components/LocaleSetter";
 import AIHubBackground from "../../components/AIHubBackground";
+import { NotificationProvider } from "../../components/NotificationSystem";
 import type { Metadata } from "next";
 import { cookies } from 'next/headers';
 
@@ -24,7 +25,7 @@ export default async function LocaleLayout({
   const nonce = cookieStore.get('csp-nonce')?.value ?? '';
 
   return (
-    <>
+    <NotificationProvider>
       {nonce ? <meta name="csp-nonce" content={nonce} /> : null}
       <AIHubBackground />
       <NavBar />
@@ -38,6 +39,6 @@ export default async function LocaleLayout({
           JavaScript kapalı — bazı özellikler çalışmayabilir.
         </div>
       </noscript>
-    </>
+    </NotificationProvider>
   );
 }

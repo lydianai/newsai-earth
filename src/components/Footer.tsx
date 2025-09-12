@@ -17,7 +17,10 @@ import {
   Database,
   Cpu,
   Wifi,
-  ExternalLink
+  ExternalLink,
+  Crown,
+  Shield,
+  MessageCircle
 } from 'lucide-react';
 
 const FooterLogo = () => (
@@ -58,22 +61,22 @@ const FooterLogo = () => (
     </motion.div>
     <div className="flex flex-col">
       <span className="text-lg font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-        AI LENS
+        NewsAI Earth
       </span>
-      <span className="text-xs text-gray-400 -mt-1">Ultra Master Hub</span>
+      <span className="text-xs text-gray-400 -mt-1">AI-Powered Global Intelligence</span>
     </div>
   </motion.div>
 );
 
 const moduleLinks = [
   { icon: Eye, title: "EarthBrief", href: "/ai-lens/earthbrief", color: "text-green-400" },
+  { icon: MessageCircle, title: "Global Discourse", href: "/ai-lens/global-discourse", color: "text-indigo-400" },
   { icon: Globe, title: "Digital Twin", href: "/ai-lens/digital-twin", color: "text-blue-400" },
   { icon: Atom, title: "Quantum Lab", href: "/ai-lens/quantum", color: "text-purple-400" },
   { icon: Headset, title: "Metaverse", href: "/ai-lens/metaverse", color: "text-pink-400" },
   { icon: Brain, title: "Research", href: "/ai-lens/research", color: "text-orange-400" },
   { icon: Database, title: "Knowledge", href: "/ai-lens/knowledge", color: "text-cyan-400" },
   { icon: Cpu, title: "AI Agents", href: "/ai-lens/agents", color: "text-yellow-400" },
-  { icon: Wifi, title: "IoT Hub", href: "/ai-lens/iot", color: "text-red-400" },
 ];
 
 const socialLinks = [
@@ -88,13 +91,13 @@ export default function Footer() {
     <footer className="bg-black border-t border-gray-800 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="py-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
             {/* Logo ve Açıklama */}
             <div className="space-y-4">
               <FooterLogo />
               <p className="text-gray-400 text-sm leading-relaxed">
-                newsai.earth üzerinde çalışan AI LENS, yapay zeka teknolojilerini birleştiren 
-                ultra master hub platformudur. Geleceğin teknolojilerini bugünden deneyimleyin.
+                newsai.earth - Yapay zeka teknolojilerini birleştiren küresel haber ve analiz platformu. 
+                Gerçek zamanlı veriler ile dünyayı keşfedin.
               </p>
               <div className="flex space-x-4">
                 {socialLinks.map((social) => (
@@ -114,14 +117,54 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* AI LENS Modülleri */}
+            {/* Premium & Admin */}
             <div>
-              <h3 className="text-white font-semibold mb-4">AI LENS Modülleri</h3>
+              <h3 className="text-white font-semibold mb-4">Premium & Yönetim</h3>
+              <ul className="space-y-2">
+                <li>
+                  <Link
+                    href="/tr/premium"
+                    className="flex items-center text-gray-400 hover:text-yellow-400 transition-colors group"
+                  >
+                    <Crown className="w-4 h-4 mr-2 text-yellow-400 group-hover:scale-110 transition-transform" />
+                    <span className="text-sm">Premium Üyelik</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/tr/admin"
+                    className="flex items-center text-gray-400 hover:text-red-400 transition-colors group"
+                  >
+                    <Shield className="w-4 h-4 mr-2 text-red-400 group-hover:scale-110 transition-transform" />
+                    <span className="text-sm">Admin Panel</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/tr/pricing" className="text-gray-400 hover:text-white transition-colors text-sm">
+                    Fiyatlandırma
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/tr/enterprise" className="text-gray-400 hover:text-white transition-colors text-sm">
+                    Kurumsal Çözümler
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/tr/api-docs" className="text-gray-400 hover:text-white transition-colors text-sm">
+                    API Erişimi
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* AI-Lens Modülleri */}
+            <div>
+              <h3 className="text-white font-semibold mb-4">AI-Lens Modülleri</h3>
               <ul className="space-y-2">
                 {moduleLinks.slice(0, 4).map((module) => (
                   <li key={module.href}>
                     <Link
-                      href={module.href}
+                      href={`/tr${module.href}`}
                       className="flex items-center text-gray-400 hover:text-white transition-colors group"
                     >
                       <module.icon className={`w-4 h-4 mr-2 ${module.color} group-hover:scale-110 transition-transform`} />
@@ -139,7 +182,7 @@ export default function Footer() {
                 {moduleLinks.slice(4).map((module) => (
                   <li key={module.href}>
                     <Link
-                      href={module.href}
+                      href={`/tr${module.href}`}
                       className="flex items-center text-gray-400 hover:text-white transition-colors group"
                     >
                       <module.icon className={`w-4 h-4 mr-2 ${module.color} group-hover:scale-110 transition-transform`} />
@@ -150,37 +193,37 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Şirket ve Legal */}
+            {/* Şirket ve Legal - En sağa taşındı */}
             <div>
               <h3 className="text-white font-semibold mb-4">Şirket</h3>
               <ul className="space-y-2">
                 <li>
-                  <Link href="/about" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  <Link href="/tr/about" className="text-gray-400 hover:text-white transition-colors text-sm">
                     Hakkımızda
                   </Link>
                 </li>
                 <li>
-                  <Link href="/contact" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  <Link href="/tr/contact" className="text-gray-400 hover:text-white transition-colors text-sm">
                     İletişim
                   </Link>
                 </li>
                 <li>
-                  <Link href="/careers" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  <Link href="/tr/careers" className="text-gray-400 hover:text-white transition-colors text-sm">
                     Kariyer
                   </Link>
                 </li>
                 <li>
-                  <Link href="/blog" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  <Link href="/tr/blog" className="text-gray-400 hover:text-white transition-colors text-sm">
                     Blog
                   </Link>
                 </li>
                 <li>
-                  <Link href="/privacy" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  <Link href="/tr/privacy" className="text-gray-400 hover:text-white transition-colors text-sm">
                     Gizlilik Politikası
                   </Link>
                 </li>
                 <li>
-                  <Link href="/terms" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  <Link href="/tr/terms" className="text-gray-400 hover:text-white transition-colors text-sm">
                     Kullanım Şartları
                   </Link>
                 </li>
@@ -193,7 +236,7 @@ export default function Footer() {
         <div className="border-t border-gray-800 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex items-center space-x-2 text-gray-400 text-sm">
-              <span>&copy; 2025 newsai.earth - AI LENS Ultra Master Hub.</span>
+              <span>&copy; 2025 newsai.earth - Gerçek Zamanlı Global İstihbarat Platformu.</span>
               <span className="flex items-center">
                 Türkiye&apos;den <Heart className="w-4 h-4 text-red-500 mx-1" /> ile yapıldı.
               </span>
@@ -210,7 +253,7 @@ export default function Footer() {
               </motion.div>
               
               <a
-                href="https://sardagsoftware.com"
+                href="https://www.ailydian.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center text-xs text-gray-500 hover:text-gray-400 transition-colors"

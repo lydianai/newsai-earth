@@ -27,8 +27,18 @@ import {
   Users,
   CreditCard,
   TrendingUp,
-  Wheat
+  Wheat,
+  MessageCircle,
+  Bell
 } from 'lucide-react';
+
+import { useNotifications } from './NotificationSystem';
+
+interface User {
+  id?: string;
+  email?: string;
+  name?: string;
+}
 
 interface User {
   id?: string;
@@ -105,6 +115,7 @@ const AILensLogo = () => (
   const aiLensMenuItems = [
     { icon: BarChart3, title: "Panel", href: "/ai-lens/dashboard", emoji: "📊" },
     { icon: Eye, title: "Dünya Özeti", href: "/ai-lens/earthbrief", emoji: "🌍" },
+    { icon: MessageCircle, title: "Canlı Söyleşi", href: "/ai-lens/global-discourse", emoji: "💬" },
     { icon: Wheat, title: "AGRI LENS", href: "/ai-lens/agri", emoji: "🌾" },
     { icon: Globe, title: "Dijital İkiz", href: "/ai-lens/digital-twin", emoji: "🌐" },
     { icon: Search, title: "Arama", href: "/ai-lens/search", emoji: "🔍" },
@@ -140,6 +151,7 @@ export default function NavBar() {
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
   const pathname = usePathname();
+  const { notifications } = useNotifications();
 
   useEffect(() => {
     // Kullanıcı bilgilerini al
@@ -318,6 +330,29 @@ export default function NavBar() {
               </div>
             ) : (
               <div className="flex items-center space-x-2">
+                {/* Notification Bell */}
+                <motion.div
+                  className="relative"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <button className="p-2 rounded-lg text-muted hover:text-text hover:bg-brand-2/10 transition-all relative">
+                    <Bell className="w-5 h-5" />
+                    {notifications.length > 0 && (
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center"
+                      >
+                        {notifications.length > 9 ? '9+' : notifications.length}
+                      </motion.div>
+                    )}
+                    {notifications.some(n => n.type === 'live') && (
+                      <div className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
+                    )}
+                  </button>
+                </motion.div>
+
                 <Link
                   href="/login"
                   className="lens-button lens-button-ghost px-4 py-2 text-sm"

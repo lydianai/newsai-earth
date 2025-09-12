@@ -5,6 +5,7 @@ import { Eye, Search, BarChart3, Globe, Atom, Headset, Brain, Cpu, Zap, Trending
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { SectionHero, KPIGrid, LensCard, StatPill, LensButton } from "@/components/lens";
+import LiveDiscourseStream from "@/components/LiveDiscourseStream";
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
@@ -145,6 +146,9 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       
+      {/* Live Discourse Stream - Sol tarafta sabit */}
+      <LiveDiscourseStream />
+      
       <div className="min-h-screen">
         {/* Hero Section */}
         <SectionHero 
@@ -230,7 +234,7 @@ export default function Home() {
             </motion.div>
 
             <KPIGrid columns={3} gap="lg" className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-              {moduleFeatures.map((feature, index) => (
+              {moduleFeatures.map((feature) => (
                 <Link key={feature.title} href={feature.href}>
                   <LensCard className="group cursor-pointer h-full" hoverable>
                     <div className="space-y-4">
