@@ -1,5 +1,18 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { Geist, Geist_Mono } from "next/font/google";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -54,7 +67,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen m-0`}>
         {children}
         
         {/* Analytics for monetization insights */}
