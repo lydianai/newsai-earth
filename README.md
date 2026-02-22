@@ -1,132 +1,139 @@
-# newsai.earth - AI NEWS - HUB
+<div align="center">
 
-AI NEWS - HUB: Yapay zeka destekli, modern ve bilimsel haber platformu.
+<img src="https://raw.githubusercontent.com/lydianai/lydianai/main/assets/logo/ailydian-banner.svg" alt="AiLydian" width="100%">
+
+<br><br>
+
+# NewsAI Earth
+
+**Global News Intelligence Platform — Multi-Source AI Aggregation**
+
+Real-time news intelligence across 100+ languages, 2.4M+ indexed queries, and 16 analytical modules powered by AI.
+
+[\![Website](https://img.shields.io/badge/Live-newsai.earth-000000?style=for-the-badge&logo=safari&logoColor=white)](https://newsai.earth)
+[\![License](https://img.shields.io/badge/License-Proprietary-blue?style=for-the-badge)](LICENSE)
+[\![Next.js](https://img.shields.io/badge/Next.js_15-000000?style=flat-square&logo=next.js&logoColor=white)](https://nextjs.org)
+[\![TypeScript](https://img.shields.io/badge/TypeScript_5-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://typescriptlang.org)
+
+</div>
 
 ---
 
-## Preview
+## Overview
 
-<div align="center">
-  <img src="docs/screenshots/ai-news-hub-landing.png" alt="AI NEWS HUB Landing" width="800">
-  <br><em>AI NEWS HUB - Ultra Master Intelligence Hub with 2.4M+ queries, multi-source aggregation, and 100+ language support</em>
-</div>
+NewsAI Earth is an enterprise-grade global news intelligence platform that aggregates, analyzes, and synthesizes information from thousands of sources worldwide. Built with AI-first architecture, it delivers real-time sentiment analysis, trend detection, and multi-dimensional news insights.
 
-<br>
-
-<div align="center">
-  <img src="docs/screenshots/platform-modules-grid.png" alt="Platform Modules Grid" width="800">
-  <br><em>16 Platform Modules: Dashboard, EarthBrief, Digital Ikiz, Arama, Teknoloji, Arastirma, Kuantum, Metaverse, AI Ajanlari, Medya, Raporlar, Otomasyon, Topluluk, Analitik, IoT Hub, Futurebuilding</em>
-</div>
+**Key Metrics:**
+- 2.4M+ indexed queries
+- 100+ language support
+- Multi-source aggregation (RSS, APIs, web scraping)
+- Real-time AI analysis pipeline
 
 ---
 
-## Preview
+## Platform Modules
 
-<div align="center">
-  <img src="docs/screenshots/ai-news-hub-landing.png" alt="NewsAI - Global News Intelligence" width="800">
-  <br><em>AI-powered news aggregation with multi-source intelligence and trend analysis</em>
-</div>
-
-
-
-## Telif Hakkı ve Lisans
-
-Bu proje Proprietary lisans ile korunmaktadir. Tum kodlar ve icerikler AiLydian tarafindan olusturulmustur. Detaylar icin LICENSE dosyasina bakiniz.
-
-## Kullanım Şartları
-
-Projeyi ticari ve kişisel amaçlarla kullanabilirsiniz. Kodun ve içeriğin yeniden dağıtımı, değiştirilmesi ve paylaşılması serbesttir. AI ile üretilen içeriklerin doğruluğu garanti edilmez.
-
-## Güvenlik
-
-Proje, Next.js güvenlik başlıkları ve rate limit altyapısı ile korunmaktadır. API anahtarları ve hassas bilgiler .env dosyasında saklanmalıdır.
-
-## SEO
-
-Her sayfa için zengin meta etiketler, robots.txt ve sitemap.xml dosyaları ile arama motoru optimizasyonu sağlanmıştır. Yapısal veri desteği eklenebilir.
+| Module | Description |
+|--------|-------------|
+| **EarthBrief** | AI-curated global briefings with priority scoring |
+| **Digital Twin** | Real-world event simulation and impact modeling |
+| **Research Engine** | Deep-dive topic research with citation tracking |
+| **Quantum Analysis** | Pattern recognition across massive news datasets |
+| **AI Agents** | Autonomous news monitoring and alert agents |
+| **Media Intelligence** | Cross-platform media coverage analysis |
+| **Automation Hub** | Workflow automation for news monitoring pipelines |
+| **Analytics** | Trend analysis, sentiment scoring, reader insights |
+| **IoT Hub** | Real-world data integration with news correlation |
+| **FutureBuilding** | Predictive intelligence and scenario modeling |
 
 ---
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Tech Stack
 
-## Getting Started
+\![Next.js](https://img.shields.io/badge/Next.js_15-000000?style=flat-square&logo=next.js&logoColor=white)
+\![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+\![React](https://img.shields.io/badge/React_19-61DAFB?style=flat-square&logo=react&logoColor=black)
+\![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
+\![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
+\![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white)
+\![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white)
 
-First, run the development server:
+---
+
+## Quick Start
 
 ```bash
+# Clone
+git clone https://github.com/lydianai/newsai-earth.git
+cd newsai-earth
+
+# Install
+npm install
+
+# Configure
+cp .env.example .env.local
+# Edit .env.local with your API keys
+
+# Run
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Environment Variables
 
-## Learn More
+```env
+# Database
+DATABASE_URL=postgresql://...
 
-To learn more about Next.js, take a look at the following resources:
+# AI & News APIs
+OPENAI_API_KEY=
+NEWS_API_KEY=
+GNEWS_API_KEY=
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# App
+NEXT_PUBLIC_APP_URL=https://newsai.earth
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Architecture
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+newsai-earth/
+├── app/              # Next.js App Router
+│   ├── (modules)/    # 16 platform modules
+│   ├── api/          # REST API endpoints
+│   └── layout.tsx    # Root layout
+├── components/       # Shared UI components
+├── lib/              # Core utilities, AI clients, scrapers
+├── prisma/           # Database schema & migrations
+└── public/           # Static assets
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
 
-## Quick start (local)
+## Security
 
-1. Install dependencies
+- All API keys stored in environment variables (never committed)
+- Next.js security headers configured
+- Rate limiting on all API endpoints
+- Input sanitization and XSS protection
+- Secret scanning enabled via GitHub Advanced Security
 
-   npm install
+Report vulnerabilities to [security@ailydian.com](mailto:security@ailydian.com)
 
-2. Run development server
+---
 
-   npm run dev
+## License
 
-3. Build for production
+This project is proprietary software. All rights reserved by AiLydian.
+See [LICENSE](LICENSE) for details.
 
-   npm run build
+---
 
-4. Start production server locally
-
-   npx next start --port 3000
-
-
-## Environment variables (add to .env.local)
-
-- OPENAI_API_KEY=sk_...
-- JWT_SECRET=your_jwt_secret_in_production
-- HF_API_TOKEN=hf_... (optional — only if you're enabling Hugging Face reranker)
-- HF_ENDPOINT=https://api-inference.huggingface.co/endpoints/<id> (optional — preferred over model-level calls)
-- HF_DISABLED=true (set to true to disable Hugging Face calls if your quota/endpoint isn't ready)
-- PINECONE_API_KEY and PINECONE_ENV if using Pinecone
-
-Notes:
-- DO NOT commit `.env.local` or `mcp.config.json` to source control.
-- The project ships with a simple file-based demo user store in `.data/users.json`. Replace with a real DB for production.
-- For production, set a strong `JWT_SECRET` and configure persistent storage for users and sessions.
-
-## Hugging Face inference endpoint
-
-The code supports two HF modes:
-
-- Model-level inference (requires the model to be public or your token to have model inference access). This may return 404 for some models.
-- Preferred: create an HF Inference Endpoint via the Hugging Face UI and set `HF_ENDPOINT` to its URL; this is more stable and recommended if you want HF reranking.
-
-See `docs/HF_ENDPOINT_SETUP.md` for a short walkthrough.
-
-## Troubleshooting
-
-- If Hugging Face calls fail with 404 or credential errors, set `HF_DISABLED=true` and use OpenAI-only reranking until you can provision an endpoint or fix token permissions.
-- If builds fail due to types or linting, run `npm run dev` and fix errors shown in the terminal; the project compiles with TypeScript and Tailwind.
+<div align="center">
+<sub>Built by <a href="https://ailydian.com">AiLydian</a> — Enterprise AI Platform Studio</sub>
+</div>
