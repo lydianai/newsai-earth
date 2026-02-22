@@ -164,7 +164,7 @@ def create_twitter_card():
 
 def main():
     """Generate social media images"""
-    output_dir = "/Users/sardag/newsai-earth-1/newsai-archive/public"
+    output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public")
     
     # Create Open Graph image
     og_img = create_og_image()

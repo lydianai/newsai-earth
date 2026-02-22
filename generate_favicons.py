@@ -88,7 +88,7 @@ def create_favicon(size):
 
 def main():
     """Generate all favicon sizes"""
-    output_dir = "/Users/sardag/newsai-earth-1/newsai-archive/public"
+    output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public")
     
     # Create favicons in different sizes
     sizes = [16, 32, 48, 64, 96, 128, 180, 192, 512]
