@@ -22,7 +22,7 @@ AI NEWS - HUB: Yapay zeka destekli, modern ve bilimsel haber platformu.
 
 ## Telif Hakkı ve Lisans
 
-Bu proje MIT lisansı ile yayınlanmıştır. Tüm kodlar ve içerikler sardagsoftware tarafından 2025 yılında oluşturulmuştur. Detaylar için LICENSE dosyasına bakınız.
+Bu proje Proprietary lisans ile korunmaktadir. Tum kodlar ve icerikler AiLydian tarafindan olusturulmustur. Detaylar icin LICENSE dosyasina bakiniz.
 
 ## Kullanım Şartları
 

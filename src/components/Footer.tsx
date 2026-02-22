@@ -81,7 +81,7 @@ const moduleLinks = [
 
 const socialLinks = [
   { icon: Twitter, href: "https://twitter.com/newsaiearth", label: "Twitter" },
-  { icon: Github, href: "https://github.com/sardagsoftware/newsai-earth", label: "GitHub" },
+  { icon: Github, href: "https://github.com/lydianai/newsai-earth", label: "GitHub" },
   { icon: Linkedin, href: "https://linkedin.com/company/newsaiearth", label: "LinkedIn" },
   { icon: Mail, href: "mailto:contact@newsai.earth", label: "Email" },
 ];
@@ -258,7 +258,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="flex items-center text-xs text-gray-500 hover:text-gray-400 transition-colors"
               >
-                <span>by Sardag Software</span>
+                <span>by AiLydian</span>
                 <ExternalLink className="w-3 h-3 ml-1" />
               </a>
             </div>

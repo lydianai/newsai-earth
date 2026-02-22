@@ -4,7 +4,7 @@
 **Generated:** `$(date +"%Y-%m-%d %H:%M:%S")`  
 **Project:** AI HUB - NEWS Platform with AGRI LENS v2 Agricultural Intelligence  
 **Version:** Production Ready 1.0.0  
-**License:** MIT License (sardagsoftware 2025)  
+**License:** Proprietary (AiLydian 2025-2026)  
 
 ---
 
@@ -129,7 +129,7 @@ All requested comprehensive system verification and optimization tasks have been
 ## ⚖️ PHASE 4: LICENSE & CODE OWNERSHIP - ✅ COMPLETED
 
 ### Legal Compliance Status
-- **License:** MIT License (sardagsoftware 2025)
+- **License:** Proprietary (AiLydian 2025-2026)
 - **Copyright Notice:** Comprehensive documentation in `COPYRIGHT.ts`
 - **Third-party Dependencies:** All properly attributed
 - **Code Ownership:** Verified and documented
@@ -291,7 +291,7 @@ License compliance: ✅ All MIT/Apache/BSD compatible
 
 ## 📞 SUPPORT & MAINTENANCE
 
-**Project Owner:** sardagsoftware  
+**Project Owner:** AiLydian  
 **License:** MIT License 2025  
 **Support:** GitHub Issues  
 **Documentation:** Complete README.md available  

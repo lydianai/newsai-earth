@@ -1,8 +1,8 @@
 /**
  * AI HUB - NEWS | Advanced Agricultural Intelligence Platform
- * Copyright (c) 2025 sardagsoftware (newsai.earth)
- * 
- * Licensed under the MIT License
+ * Copyright (c) 2025-2026 AiLydian (newsai.earth)
+ *
+ * Proprietary License - All Rights Reserved
  * 
  * This software includes AGRI LENS v2 - Advanced Agricultural Intelligence System
  * featuring crop forecasting, yield prediction, plant health detection, ESG tracking,
@@ -21,10 +21,10 @@
  * 
  * For more information:
  * - Website: https://newsai.earth
- * - Repository: https://github.com/sardagsoftware/newsai-earth
- * - License: MIT
- * 
- * @author sardagsoftware
+ * - Repository: https://github.com/lydianai/newsai-earth
+ * - License: Proprietary
+ *
+ * @author AiLydian
  * @version 2.0.0
  * @since 2025
  */
@@ -34,11 +34,11 @@ export const COPYRIGHT = {
   name: 'AI HUB - NEWS',
   fullName: 'AI HUB - NEWS | Advanced Agricultural Intelligence Platform',
   version: '2.0.0',
-  copyright: 'Copyright (c) 2025 sardagsoftware',
-  license: 'MIT',
+  copyright: 'Copyright (c) 2025-2026 AiLydian',
+  license: 'Proprietary',
   website: 'https://newsai.earth',
-  repository: 'https://github.com/sardagsoftware/newsai-earth',
-  author: 'sardagsoftware',
+  repository: 'https://github.com/lydianai/newsai-earth',
+  author: 'AiLydian',
   year: 2025,
   description: 'Advanced Agricultural Intelligence System featuring AGRI LENS v2 with crop forecasting, yield prediction, plant health detection, ESG tracking, and comprehensive agricultural analytics.',
   technologies: [
