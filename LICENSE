@@ -1,21 +1,42 @@
-MIT License
+AiLydian Proprietary Software License
+Version 2.0 - Effective January 2025
 
-Copyright (c) 2025 sardagsoftware
+Copyright (c) 2025-2026 AiLydian. All Rights Reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+TERMS AND CONDITIONS
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. GRANT OF LICENSE
+   This software is provided for viewing and evaluation purposes only
+   through the GitHub platform. No other rights are granted.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+2. RESTRICTIONS
+   You may NOT, without express written permission from AiLydian:
+   a) Copy, reproduce, or duplicate any portion of this software
+   b) Modify, adapt, or create derivative works
+   c) Distribute, sublicense, sell, or transfer this software
+   d) Reverse engineer, decompile, or disassemble this software
+   e) Use any algorithms, methods, or techniques in other projects
+   f) Remove or alter any proprietary notices or watermarks
+   g) Use this software for commercial purposes
+   h) Train machine learning models using this codebase
+
+3. INTELLECTUAL PROPERTY
+   All intellectual property rights remain exclusively with AiLydian.
+
+4. MONITORING AND ENFORCEMENT
+   This repository is actively monitored. Unauthorized use will be
+   pursued under applicable intellectual property laws including:
+   - Digital Millennium Copyright Act (DMCA)
+   - Computer Fraud and Abuse Act (CFAA)
+   - Defend Trade Secrets Act (DTSA)
+
+5. NO WARRANTY
+   THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND.
+
+6. GOVERNING LAW
+   This license is governed by the laws of the Republic of Turkey.
+
+7. CONTACT
+   Licensing: info@ailydian.com
+   Security: security@ailydian.com
+   Business: ailydian@ailydian.com
