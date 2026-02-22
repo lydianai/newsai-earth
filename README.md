@@ -2,6 +2,24 @@
 
 AI NEWS - HUB: Yapay zeka destekli, modern ve bilimsel haber platformu.
 
+---
+
+## Preview
+
+<div align="center">
+  <img src="docs/screenshots/ai-news-hub-landing.png" alt="AI NEWS HUB Landing" width="800">
+  <br><em>AI NEWS HUB - Ultra Master Intelligence Hub with 2.4M+ queries, multi-source aggregation, and 100+ language support</em>
+</div>
+
+<br>
+
+<div align="center">
+  <img src="docs/screenshots/platform-modules-grid.png" alt="Platform Modules Grid" width="800">
+  <br><em>16 Platform Modules: Dashboard, EarthBrief, Digital Ikiz, Arama, Teknoloji, Arastirma, Kuantum, Metaverse, AI Ajanlari, Medya, Raporlar, Otomasyon, Topluluk, Analitik, IoT Hub, Futurebuilding</em>
+</div>
+
+---
+
 ## Telif Hakkı ve Lisans
 
 Bu proje MIT lisansı ile yayınlanmıştır. Tüm kodlar ve içerikler sardagsoftware tarafından 2025 yılında oluşturulmuştur. Detaylar için LICENSE dosyasına bakınız.
