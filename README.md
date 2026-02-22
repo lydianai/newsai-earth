@@ -20,6 +20,15 @@ AI NEWS - HUB: Yapay zeka destekli, modern ve bilimsel haber platformu.
 
 ---
 
+## Preview
+
+<div align="center">
+  <img src="docs/screenshots/ai-news-hub-landing.png" alt="NewsAI - Global News Intelligence" width="800">
+  <br><em>AI-powered news aggregation with multi-source intelligence and trend analysis</em>
+</div>
+
+
+
 ## Telif Hakkı ve Lisans
 
 Bu proje Proprietary lisans ile korunmaktadir. Tum kodlar ve icerikler AiLydian tarafindan olusturulmustur. Detaylar icin LICENSE dosyasina bakiniz.
